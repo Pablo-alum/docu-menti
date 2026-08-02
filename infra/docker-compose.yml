@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:17
+
+    container_name: docu-menti-postgres
+
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: documenti
+      POSTGRES_USER: documenti
+      POSTGRES_PASSWORD: documenti123
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
