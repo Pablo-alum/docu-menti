@@ -1,4 +1,4 @@
-package com.documenti.bakend.domain.model.base;
+package com.documenti.bakend.model.base;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -16,13 +16,11 @@ import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 /**
  * Padre
  */
 @MappedSuperclass
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED) 
 public class Padre {
     
     @Id
@@ -31,11 +29,8 @@ public class Padre {
     private UUID idUUID;
 
     @NotBlank(message = "Por favor poner nombre")
-    @NotNull
+    @Column(nullable = false)
     private String nombre;
-    @NotBlank(message = "Por favor poner el correo")
-    @Column(name = "correo", nullable = false)
-    private String correoString;
 
     @NotBlank(message = "Por favor poner contraseña")
     @Size(min = 8, message = "Mínimo 8 caracteres")

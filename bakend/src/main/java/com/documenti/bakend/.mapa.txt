@@ -1,0 +1,136 @@
+backend/
+├── src/
+│   ├── main/
+│   │   ├── java/com/gestiondocumental/
+│   │   │   ├── GestionDocumentalApplication.java
+│   │   │   │
+│   │   │   ├── domain/                     ← Reglas de negocio puras
+│   │   │   │   ├── model/                  ← Entidades, value objects, enums
+│   │   │   │   │   ├── Documento.java
+│   │   │   │   │   ├── Categoria.java
+│   │   │   │   │   ├── Usuario.java
+│   │   │   │   │   └── vo/                 ← Value Objects
+│   │   │   │   │       ├── DocumentoId.java
+│   │   │   │   │       ├── Email.java
+│   │   │   │   │       └── HashArchivo.java
+│   │   │   │   ├── repository/             ← Interfaces (ports)
+│   │   │   │   │   ├── DocumentoRepository.java
+│   │   │   │   │   └── CategoriaRepository.java
+│   │   │   │   ├── service/                ← Interfaces de dominio
+│   │   │   │   │   └── ClasificadorService.java
+│   │   │   │   └── exception/              ← Excepciones de negocio
+│   │   │   │       ├── DocumentoDuplicadoException.java
+│   │   │   │       └── DominioException.java
+│   │   │   │
+│   │   │   ├── application/                ← Casos de uso, orquestación
+│   │   │   │   ├── dto/                    ← Request/Response
+│   │   │   │   │   ├── request/
+│   │   │   │   │   │   ├── SubidaRequest.java
+│   │   │   │   │   │   └── BusquedaRequest.java
+│   │   │   │   │   └── response/
+│   │   │   │   │       ├── DocumentoResponse.java
+│   │   │   │   │       └── DashboardResponse.java
+│   │   │   │   ├── mapper/                 ← MapStruct
+│   │   │   │   │   └── DocumentoMapper.java
+│   │   │   │   ├── service/                ← Implementaciones de casos de uso
+│   │   │   │   │   ├── SubidaDocumentoService.java
+│   │   │   │   │   ├── ClasificadorReglasService.java
+│   │   │   │   │   └── DashboardService.java
+│   │   │   │   └── event/                  ← Eventos de dominio
+│   │   │   │       ├── DocumentoSubidoEvent.java
+│   │   │   │       └── EventPublisher.java
+│   │   │   │
+│   │   │   ├── infrastructure/             ← Adapters (tecnología)
+│   │   │   │   ├── persistence/            ← JPA, queries, repositorios
+│   │   │   │   │   ├── entity/             ← @Entity (no son del dominio)
+│   │   │   │   │   │   ├── DocumentoEntity.java
+│   │   │   │   │   │   └── CategoriaEntity.java
+│   │   │   │   │   ├── jpa/
+│   │   │   │   │   │   ├── DocumentoJpaRepository.java
+│   │   │   │   │   │   └── CategoriaJpaRepository.java
+│   │   │   │   │   └── impl/
+│   │   │   │   │       └── DocumentoRepositoryImpl.java
+│   │   │   │   ├── storage/                ← MinIO
+│   │   │   │   │   ├── MinioConfig.java
+│   │   │   │   │   └── MinioStorageAdapter.java
+│   │   │   │   ├── cache/                  ← Redis / Caffeine
+│   │   │   │   │   ├── CacheConfig.java
+│   │   │   │   │   └── CategoriaCache.java
+│   │   │   │   ├── ocr/                    ← Tesseract
+│   │   │   │   │   ├── TesseractConfig.java
+│   │   │   │   │   └── OcrExtractor.java
+│   │   │   │   ├── security/               ← JWT, roles
+│   │   │   │   │   ├── JwtConfig.java
+│   │   │   │   │   ├── JwtFilter.java
+│   │   │   │   │   └── SecurityConfig.java
+│   │   │   │   └── config/                 ← Beans generales
+│   │   │   │       └── AsyncConfig.java
+│   │   │   │
+│   │   │   └── api/                        ← Controllers, presenters
+│   │   │       ├── controller/
+│   │   │       │   ├── DocumentoController.java
+│   │   │       │   ├── CategoriaController.java
+│   │   │       │   ├── DashboardController.java
+│   │   │       │   └── BenchmarkController.java
+│   │   │       ├── advice/                 ← @ControllerAdvice
+│   │   │       │   └── GlobalExceptionHandler.java
+│   │   │       └── validator/
+│   │   │           └── SubidaValidator.java
+│   │   │
+│   │   └── resources/
+│   │       ├── application.yml
+│   │       ├── application-dev.yml
+│   │       ├── application-prod.yml
+│   │       ├── db/migration/               ← Flyway
+│   │       │   ├── V1__init.sql
+│   │       │   ├── V2__add_ocr_vector.sql
+│   │       │   └── V3__add_hash_indexes.sql
+│   │       └── tessdata/                   ← Modelos OCR
+│   │
+│   └── test/
+│       ├── java/com/gestiondocumental/
+│       │   ├── unit/                       ← Tests unitarios puros
+│       │   │   ├── domain/
+│       │   │   └── application/
+│       │   ├── integration/                  ← @SpringBootTest
+│       │   │   ├── api/
+│       │   │   └── persistence/
+│       │   └── benchmark/                    ← Tests de carga
+│       │       └── DocumentoBenchmark.java
+│       └── resources/
+│           ├── application-test.yml
+│           └── test-files/                   ← PDFs de prueba
+│               ├── factura-ejemplo.pdf
+│               └── contrato-ejemplo.pdf
+│
+├── pom.xml
+├── Dockerfile
+└── .env.example
+
+| Tipo       | Cuándo usar                   | Ejemplo para tu proyecto                                                 |
+| ---------- | ----------------------------- | ------------------------------------------------------------------------ |
+| `feat`     | Nueva feature                 | `feat(ocr): agregar detección de duplicados por SimHash`                 |
+| `fix`      | Corrección de bug             | `fix(auth): resolver null pointer en validación de JWT expirado`         |
+| `docs`     | Documentación                 | `docs(readme): agregar instrucciones de deploy con Docker`               |
+| `style`    | Formato, sin cambio de lógica | `style(domain): aplicar formato consistente en entidades`                |
+| `refactor` | Reestructuración de código    | `refactor(api): extraer validación de subida a servicio separado`        |
+| `perf`     | Mejora de performance         | `perf(search): agregar índice GIN para búsqueda full-text`               |
+| `test`     | Tests                         | `test(subida): agregar tests para detección de imágenes no documentales` |
+| `chore`    | Tareas de mantenimiento       | `chore(deps): actualizar Spring Boot a 3.3.0`                            |
+| `ci`       | CI/CD                         | `ci(github): agregar workflow de benchmark con k6`                       |
+| `revert`   | Revertir commit               | `revert(feat): revertir caché de categorías por inconsistencia`          |
+
+| Scope            | Qué cubre                                            |
+| ---------------- | ---------------------------------------------------- |
+| `domain`         | Entidades, value objects, excepciones de negocio     |
+| `application`    | DTOs, mappers, casos de uso, eventos                 |
+| `infrastructure` | Repositorios JPA, MinIO, Redis, Tesseract, seguridad |
+| `api`            | Controllers, validators, exception handlers          |
+| `ocr`            | Pipeline de OCR, Tesseract, clasificación            |
+| `auth`           | JWT, roles, login, registro                          |
+| `search`         | Búsqueda full-text, índices, queries                 |
+| `dashboard`      | Métricas, KPIs, endpoints de estadísticas            |
+| `benchmark`      | Tests de carga, panel de rendimiento                 |
+| `frontend`       | Componentes Vue, vistas Astro, stores                |
+| `infra`          | Docker, nginx, CI/CD, scripts                        |
+| `docs`           | README, ADRs, guías                                  |

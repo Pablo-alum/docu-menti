@@ -1,4 +1,4 @@
-package com.documenti.bakend.domain.model.base;
+package com.documenti.bakend.model.base;
 
 import java.util.UUID;
 
@@ -20,11 +20,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@MappedSuperclass public class BaseIdNombre{
+@MappedSuperclass 
+public class BaseIdNombre{
     @Id @GeneratedValue(strategy =GenerationType.UUID)
     private UUID id;
     @Size(max = 120,message = "no mas de 120 caracteres")
     @NotBlank(message = "por favor poner un nombre")
-    @Column(nullable = "Nombre")
-    private String  Nombre;
+    @Column(nullable = false)
+    private String  nombre;
 }

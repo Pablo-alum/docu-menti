@@ -1,4 +1,4 @@
-package com.documenti.bakend.domain.model;
+package com.documenti.bakend.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -6,17 +6,21 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.documenti.bakend.enums.EstadoDocumento;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +31,6 @@ import lombok.Setter;
 @Entity
 @Table(name = "Documento")
 @NoArgsConstructor
-@Builder
 public class Documento {
     
     @Id @GeneratedValue(strategy = GenerationType.UUID)
@@ -37,29 +40,28 @@ public class Documento {
     @Getter
     @Setter
     @Column(name = "DocumentiNombre")
-    private String nombreStrign;
+    private String nombre;
 
     @CreationTimestamp
     @Getter
     private LocalDateTime nombreCreacion;
-    private List<String> hisotiral_Camibos = new ArrayList<>();
+    //@ElementCollection
+    //@CollectionTable(name = "Historial")
+    //private List<String> hisotiral_Camibos = new ArrayList<>();
 
     @NotNull
     @NotBlank(message = "No tamaño")
     private long tamaño;
-    @NotBlank(message = "Error sin dueño")
-    private Usuario dueño = new Usuario();
-    enum Estado{
-        PENDIENTE,
-        CLASIFICADO,
-        CLASIFICADO_IA,
-        ERROR_CLASIFICADO
-    }
+/*    @ElementCollection*/
+    /*@CollectionTable(name = "documento_usuario")*/
+    /*@JoinColumn(name = "Usario_id")*/
+    /*@NotBlank(message = "Error sin dueño")*/
+    /*private Usuario dueño;*/
     @Enumerated(EnumType.STRING)
     @Getter
     @Setter
-    private Estado estado;
-    private List<categorias> categorias = new ArrayList<>();
+    private EstadoDocumento estado;
+    //private List<Categorias> categorias = new ArrayList<>();
 
     @Column(name = "cofre", nullable = false)
     @Getter @Setter

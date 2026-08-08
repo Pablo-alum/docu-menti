@@ -1,6 +1,6 @@
-package com.documenti.bakend.domain.model;
+package com.documenti.bakend.model;
 
-import com.documenti.bakend.domain.model.base.Padre;
+import com.documenti.bakend.model.base.Padre;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -9,15 +9,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Super_admin
+ * Usuario
  */
 @Entity
+@Table(name = "usuario")
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name ="SuperAdmin")
-public class Super_admin extends Padre{
-    
-
+public class Usuario extends Padre  {
     
 }
