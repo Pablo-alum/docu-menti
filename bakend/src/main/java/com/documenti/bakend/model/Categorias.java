@@ -1,8 +1,6 @@
 package com.documenti.bakend.model;
 
 
-import java.util.ArrayList;
-
 import com.documenti.bakend.model.base.BaseIdNombre;
 
 import jakarta.persistence.Entity;

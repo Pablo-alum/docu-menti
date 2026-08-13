@@ -1,9 +1,6 @@
 package com.documenti.bakend.model;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.documenti.bakend.model.base.BaseIdNombre;
 
 import jakarta.persistence.Entity;
@@ -20,4 +17,5 @@ import lombok.Setter;
 @Table(name = "etiqueta")
 public class Etiquetas extends BaseIdNombre {
     //private List<Documento> ListaDocumentos = new ArrayList<>();
+    private String color;
 }

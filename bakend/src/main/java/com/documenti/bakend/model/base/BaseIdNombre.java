@@ -28,4 +28,5 @@ public class BaseIdNombre{
     @NotBlank(message = "por favor poner un nombre")
     @Column(nullable = false)
     private String  nombre;
+
 }
