@@ -17,7 +17,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: bakend
+        working-directory: backend
 
     steps:
       - name: Checkout
