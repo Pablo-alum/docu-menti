@@ -56,24 +56,39 @@ const coloresPredefinidos: ColorOption[] = [
    CONFIGURACION POR TIPO
    ========================================================= */
 
-const config = computed<ConfigModal>(() => {
-  const map: Record<string, ConfigModal> = {
-    carpeta:   { titulo: 'Crear nueva carpeta',   icono: 'nf-md-folder',        placeholder: 'Ej: Documentos 2024' },
-    categoria: { titulo: 'Crear nueva categoria', icono: 'nf-md-shape_outline', placeholder: 'Ej: Publicos/Oficiales' },
-    etiqueta:  { titulo: 'Crear nueva etiqueta',  icono: 'nf-md-tag',           placeholder: 'Ej: Urgente' },
-  }
-  return map[props.tipo] ?? map.carpeta
-})
 
+type TipoEntidad = 'carpeta' | 'categoria' | 'etiqueta'
+const config = computed<ConfigModal>(() => {
+  const map: Record<TipoEntidad, ConfigModal> = {
+    carpeta: {
+      titulo: 'Crear nueva carpeta',
+      icono: 'nf-md-folder',
+      placeholder: 'Ej: Documentos 2024'
+    },
+    categoria: {
+      titulo: 'Crear nueva categoria',
+      icono: 'nf-md-shape_outline',
+      placeholder: 'Ej: Publicos/Oficiales'
+    },
+    etiqueta: {
+      titulo: 'Crear nueva etiqueta',
+      icono: 'nf-md-tag',
+      placeholder: 'Ej: Urgente'
+    },
+  }
+
+  return map[props.tipo]
+})
 /* =========================================================
    ESTADO LOCAL
    ========================================================= */
-
+/*--Revisar despues hex y color blue si son lo mismo*/
+const COLOR_DEFAULT = 'var(--color-blue)'
+const HEX_DEFAULT = '#457B9D'
 const nombre = ref('')
-const colorSeleccionado = ref<string>(coloresPredefinidos[2].var) // default azul
-const colorCustom = ref('#457B9D')
+const colorSeleccionado = ref<string>(COLOR_DEFAULT)
+const colorCustom = ref<string>(HEX_DEFAULT)
 const esColorCustom = ref(false)
-
 /* =========================================================
    COMPUTED
    ========================================================= */
@@ -110,7 +125,7 @@ function confirmar() {
 
 function resetForm() {
   nombre.value = ''
-  colorSeleccionado.value = coloresPredefinidos[2].var
+  colorSeleccionado.value = "var(--color-blue)"
   colorCustom.value = '#457B9D'
   esColorCustom.value = false
 }
