@@ -5,17 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.Executors;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import org.springframework.boot.actuate.autoconfigure.cloudfoundry.AccessLevel;
-import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -25,14 +23,15 @@ import lombok.NoArgsConstructor;
  * Asunto
  */
 
-@Entity
 @Table(name = "asuntos")
 @Getter
 @NoArgsConstructor(access =  lombok.AccessLevel.PROTECTED)
+@Entity
 public class Asunto {
 
-    @Id
+    
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Id   
     private UUID id;
 
     @Column(name = "caratula", nullable = false)
