@@ -1,17 +1,19 @@
 package com.documenti.bakend.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import com.documenti.bakend.enums.EstadoDocumento;
+//import com.documenti.bakend.enums.EstadoProcesamientoIA;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
-
-import com.documenti.bakend.enums.EstadoDocumento;
-//import com.documenti.bakend.enums.EstadoProcesamientoIA;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,6 +23,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -83,13 +87,25 @@ public class Documento {
     @UpdateTimestamp
     @Column(name = "actualizado_en")
     private LocalDateTime actualizadoEn;
+    @ManyToMany
+    @JoinTable(name = "Documento_Categorias",
+         joinColumns  = @JoinColumn(name ="categorias_id"),
+         inverseJoinColumns =  @JoinColumn(name ="documento_id")
+    )
+    private List<Categorias> categorias = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(name = "Documento_Etiquetas",
+    joinColumns = @JoinColumn(name ="etiquetas_id"),
+    inverseJoinColumns = @JoinColumn(name = "documento_id")
+    )
+    private List<Etiquetas> etiquetas = new ArrayList<>();
     // ========== MÉTODOS DE FÁBRICA (creación controlada) ==========
 
     public static Documento crear(String nombre, String cofre, String storageKey,
                                   String mimeType, Long tamaño, String hash,
                                   Map<String, Object> metadata, Asunto asunto, 
-                                  Usuario creadoPor) {
+                                  Usuario creadoPor , List<Etiquetas> etiquetas) {
         Documento document = new Documento();
         document.nombre = nombre;
         document.cofre = cofre;
@@ -101,6 +117,7 @@ public class Documento {
         document.asunto = asunto;
         document.creadoPor = creadoPor;
         document.estado = EstadoDocumento.BORRADOR;
+        document.etiquetas = etiquetas != null ? etiquetas : new ArrayList<>();
         return document;
     }
 

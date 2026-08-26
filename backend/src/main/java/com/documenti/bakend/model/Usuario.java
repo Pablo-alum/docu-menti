@@ -5,8 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.management.relation.Role;
-
 import com.documenti.bakend.enums.Rol;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,9 +22,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -71,7 +66,7 @@ public class Usuario {
     private Map<String, Object> metadata;
 
     // Farbicas
-    public static Usuario crearAdmin(String email, String password, String nombre, Set<Rol> roles) {
+    public static Usuario crearAdmin(String email, String password, String nombre) {
         if (email == null || email.isBlank()) {
             throw new IllegalArgumentException("Por favor ponga un correo");
         }
@@ -85,13 +80,29 @@ public class Usuario {
         usuario.email = email;
         usuario.password = password;
         usuario.nombre = nombre;
-        usuario.roles = Set.of(Rol.SUPER_ADMIN);
+        usuario.roles =  new HashSet<>(Set.of(Rol.SUPER_ADMIN));
         return usuario;
     }
 
 
     
 
+
+    public static Usuario crarUsuario(String email, String password, String nombre, Set<Rol> roles, boolean activo, String tokenInvitacion,
+            LocalDateTime tokenInvitacionExpira) {
+        Usuario usuario = new Usuario();
+        usuario.email = email;
+        usuario.password = password;
+        usuario.nombre = nombre;
+        usuario.roles = roles != null ? roles : new HashSet<>() ;
+        usuario.activo = activo;
+        usuario.tokenInvitacion = tokenInvitacion;
+        usuario.tokenInvitacionExpira = tokenInvitacionExpira;
+        return usuario;
+    }
+
+
+    
 
     public void setEmail(String email) {
         this.email = email;
