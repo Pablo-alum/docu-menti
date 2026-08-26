@@ -27,7 +27,7 @@ bakend.zip
 *.tsbuildinfo
 
 .eslintcache
-
+.map.text
 # Cypress
 /cypress/videos/
 /cypress/screenshots/
