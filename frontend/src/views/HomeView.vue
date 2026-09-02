@@ -217,7 +217,9 @@ function categoryClass(category: string): string {
               <i class="nf nf-md-menu"></i>
             </button>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-3"
+              @click="$router.push('/login')"
+              >
               <div class="w-9 h-9 rounded-lg bg-brand flex items-center justify-center text-white font-bold text-lg">
                 D
               </div>
